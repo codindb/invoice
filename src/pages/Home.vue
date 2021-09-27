@@ -85,4 +85,8 @@ const downloadPaidInvoice = () => {
 
 <style lang="scss" scoped>
 
+.invoice {
+   margin-top: 30px;
+}
+
 </style>
