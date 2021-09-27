@@ -4,14 +4,14 @@
          <el-button @click="downloadTempInvoice" type="primary" plain round icon="el-icon-download">Facture Provisoire</el-button>
          <el-button @click="edit" type="warning" plain round icon="el-icon-edit">Modifier la facture</el-button>
          <div class="invoice" ref="tempInvoice" v-loading="data.loading">
-            <Invoice :record="data.record" :editable="data.editable"/>
+            <Invoice :record="data.record" :editable="data.editable" :paid="false"/>
          </div>
       </el-tab-pane>
       <el-tab-pane label="Facture Acquitée" name="acquitee">
          <el-button @click="downloadTempInvoice" type="primary" plain round icon="el-icon-download">Facture Acquitée</el-button>
          <el-button @click="edit" type="warning" plain round icon="el-icon-edit">Modifier la facture</el-button>
          <div v-if="data.record.fields && data.record.fields.Statut == 'Réglé'" class="invoice" ref="paidInvoice" v-loading="data.loading">
-            <Invoice :record="data.record" :editable="data.editable"/>
+            <Invoice :record="data.record" :editable="data.editable" :paid="true"/>
          </div>
          <div class="no-invoice" v-else>
             <h2>🚧 La Facture n'est pas encore réglée 🚧</h2>
@@ -90,6 +90,9 @@ const downloadPaidInvoice = () => {
 
 .invoice {
    min-height: 200px;
+   // height: 842px;
+   width: 595px;
+   margin: 0 auto;
 }
 .no-invoice {
    height: 200px;
