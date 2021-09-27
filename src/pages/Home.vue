@@ -10,8 +10,11 @@
       <el-tab-pane label="Facture Acquitée" name="acquitee">
          <el-button @click="downloadTempInvoice" type="primary" plain round icon="el-icon-download">Facture Acquitée</el-button>
          <el-button @click="edit" type="warning" plain round icon="el-icon-edit">Modifier la facture</el-button>
-         <div class="invoice" ref="paidInvoice" v-loading="data.loading">
+         <div v-if="data.record.fields && data.record.fields.Statut == 'Réglé'" class="invoice" ref="paidInvoice" v-loading="data.loading">
             <Invoice :record="data.record" :editable="data.editable"/>
+         </div>
+         <div class="no-invoice" v-else>
+            <h2>🚧 La Facture n'est pas encore réglée 🚧</h2>
          </div>
       </el-tab-pane>
       <el-tab-pane label="E-mails" name="email">E-mails</el-tab-pane>
@@ -49,7 +52,7 @@ const loadData = async () => {
   try {
    data.record = await AxiosService.getRecord(route.query.id)
    data.loading = false
-   // console.log(data.record)
+   console.log(data.record)
   } catch (e) {
     console.log(e)
   }
@@ -87,6 +90,12 @@ const downloadPaidInvoice = () => {
 
 .invoice {
    min-height: 200px;
+}
+.no-invoice {
+   height: 200px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
 }
 
 </style>
