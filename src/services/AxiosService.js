@@ -11,5 +11,6 @@ const instance = axios.create({
 // Get record by id
 export async function getRecord (id) {
    const res = await instance.get('/' + id)
+   console.log(`API KEY: ${APIKEY}`);
    return res.data
 }
