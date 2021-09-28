@@ -8,7 +8,7 @@
          </div>
       </el-tab-pane>
       <el-tab-pane label="Facture Acquitée" name="acquitee">
-         <el-button @click="downloadTempInvoice" type="primary" plain round icon="el-icon-download">Facture Acquitée</el-button>
+         <el-button @click="downloadPaidInvoice" type="primary" plain round icon="el-icon-download">Facture Acquitée</el-button>
          <el-button @click="edit" type="warning" plain round icon="el-icon-edit">Modifier la facture</el-button>
          <div v-if="data.record.fields && data.record.fields.Statut == 'Réglé'" class="invoice" ref="paidInvoice" v-loading="data.loading">
             <Invoice :record="data.record" :editable="data.editable" :paid="true"/>
@@ -62,7 +62,7 @@ loadData()
 const tempInvoice = ref("")
 const downloadTempInvoice = () => {
    const opt = {
-      margin: 1,
+      margin: 0,
       filename: 'FactureProvisoire' + data.record.fields.Nom + '.pdf',
       image: { type: 'jpeg', quality: 0.98 },
       html2canvas: { scale: 2 },
@@ -74,7 +74,7 @@ const downloadTempInvoice = () => {
 const paidInvoice = ref("")
 const downloadPaidInvoice = () => {
    const opt = {
-      margin: 1,
+      margin: 0,
       filename: 'FactureAcquitee' + data.record.fields.Nom + '.pdf',
       image: { type: 'jpeg', quality: 0.98 },
       html2canvas: { scale: 2 },
@@ -90,7 +90,7 @@ const downloadPaidInvoice = () => {
 
 .invoice {
    min-height: 200px;
-   // height: 842px;
+   height: 1000px;
    width: 595px;
    margin: 0 auto;
 }
