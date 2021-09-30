@@ -17,7 +17,32 @@
             <h2>🚧 La Facture n'est pas encore réglée 🚧</h2>
          </div>
       </el-tab-pane>
-      <el-tab-pane label="E-mails" name="email">E-mails</el-tab-pane>
+      <el-tab-pane label="E-mails" name="email">
+         <el-tabs tab-position="left">
+            <el-tab-pane label="Envoi facture provisoire">
+               <Email :record="data.record" :editable="data.editable" :emailInfo="invoiceEmailInfo"/>
+               <div class="buttons">
+                  <el-button @click="edit" type="warning" plain round icon="el-icon-edit">Modifier e-mail</el-button>
+                  <el-button @click="alert('message envoyé')" type="primary" plain round icon="el-icon-check">Envoyer e-mail</el-button>
+               </div>
+            </el-tab-pane>
+            <el-tab-pane label="Confirmation inscription">
+               <Email :record="data.record" :editable="data.editable" :emailInfo="invoiceEmailInfo"/>
+               <div class="buttons">
+                  <el-button @click="edit" type="warning" plain round icon="el-icon-edit">Modifier e-mail</el-button>
+                  <el-button @click="alert('message envoyé')" type="primary" plain round icon="el-icon-check">Envoyer e-mail</el-button>
+               </div>
+            </el-tab-pane>
+            <el-tab-pane label="Envoi facture acquitée">
+               <Email :record="data.record" :editable="data.editable" :emailInfo="invoiceEmailInfo"/>
+               <div class="buttons">
+                  <el-button @click="edit" type="warning" plain round icon="el-icon-edit">Modifier e-mail</el-button>
+                  <el-button @click="alert('message envoyé')" type="primary" plain round icon="el-icon-check">Envoyer e-mail</el-button>
+               </div>
+            </el-tab-pane>
+         </el-tabs>
+         
+      </el-tab-pane>
    </el-tabs>
 </template>
 
@@ -29,6 +54,7 @@ import * as AxiosService from '../services/AxiosService.js'
 import html2pdf from 'html2pdf.js'
 
 import Invoice from '../components/Invoice.vue'
+import Email from '../components/Email.vue'
 
 const route = useRoute()
 
@@ -63,7 +89,7 @@ const tempInvoice = ref("")
 const downloadTempInvoice = () => {
    const opt = {
       margin: 0,
-      filename: 'FactureProvisoire' + data.record.fields.Nom + '.pdf',
+      filename: 'Facture' + data.record.fields.Nom + '.pdf',
       image: { type: 'jpeg', quality: 0.98 },
       html2canvas: { scale: 2 },
       jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
@@ -83,6 +109,11 @@ const downloadPaidInvoice = () => {
    html2pdf().set(opt).from(paidInvoice.value).save()
 }
 
+const invoiceEmailInfo = {
+   title: "d'envoi de facture provisoire",
+   subject: "Facture provisoire Centre de loisirs Chavanod",
+   body: "Ceci est un message,"
+}
 
 </script>
 
@@ -99,6 +130,12 @@ const downloadPaidInvoice = () => {
    display: flex;
    justify-content: center;
    align-items: center;
+}
+.buttons {
+   display: flex;
+   justify-content: start;
+   margin-bottom: 50px;
+   margin-left: 17%;
 }
 
 </style>
