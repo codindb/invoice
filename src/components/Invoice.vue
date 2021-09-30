@@ -7,7 +7,7 @@
          <h3>Automne 2021 : 25 au 29 Octobre</h3>
       </div>
       
-      <img class="logo" src="../assets/logoAfr.jpg">
+      <img class="logo" src="../assets/logoafr.jpg">
    </div>
    <h2 class="highlight">Facture</h2>
    <div class="info" :contenteditable="editable">
