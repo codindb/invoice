@@ -8,8 +8,8 @@
          </div>
       </el-tab-pane>
       <el-tab-pane label="Facture Acquitée" name="acquittee">
-         <el-button @click="downloadPaidInvoice" type="primary" plain round icon="el-icon-download">Facture Acquitée</el-button>
-         <el-button @click="edit" type="warning" plain round icon="el-icon-edit">Modifier la facture</el-button>
+         <el-button @click="downloadPaidInvoice" :disabled="data.record.fields && data.record.fields.Statut !== 'Réglé'" type="primary" plain round icon="el-icon-download">Facture Acquitée</el-button>
+         <el-button @click="edit" :disabled="data.record.fields && data.record.fields.Statut !== 'Réglé'" type="warning" plain round icon="el-icon-edit">Modifier la facture</el-button>
          <div v-if="data.record.fields && data.record.fields.Statut === 'Réglé'" class="invoice" ref="paidInvoice" v-loading="data.loading">
             <Invoice :record="data.record" :editable="data.editable" :paid="true"/>
          </div>
@@ -18,16 +18,26 @@
          </div>
       </el-tab-pane>
       <el-tab-pane label="E-mails" name="email">
+         <h2 v-if="data.record.fields">💌 Envoyé à : {{ data.record.fields['Prénom'] }} {{ data.record.fields.Nom }} / {{ data.record.fields.Email }} 💌</h2>
          <div class="email-button">
-            <p v-if="data.record.fields && !data.record.fields.Facture">la facture n'est pas créée et/ou uploadée sur Airtable 🥺</p>
+            <h3 v-if="data.record.fields && !data.record.fields.Facture">❌ La facture n'est pas créée et/ou uploadée sur Airtable 🥺</h3>
+            <h3 v-else>✅ C'est bon tu peux cliquer 🤙🏻</h3>
+            <p class="look-up" v-if="data.record.fields && !data.record.fields.Facture">👆🏻 🤯 👆🏻</p>
+            <p class="look-up" v-else>👇🏻 😎 👇🏻</p>
             <el-button @click="sendInvoiceEmail()" :disabled="data.record.fields && !data.record.fields.Facture" type="primary" plain round icon="el-icon-check">Envoyer e-mail Facture</el-button>
          </div>
          <div class="email-button">
-            <p v-if="data.record.fields && data.record.fields.Statut !== 'Réglé'">Le statut du dossier ne permet encore d'envoyer l'e-mail de confirmation 😫</p>
+            <h3 v-if="data.record.fields && data.record.fields.Statut !== 'Réglé'">❌ Le statut du dossier ne permet pas encore d'envoyer l'e-mail de confirmation 😫</h3>
+            <h3 v-else>✅ C'est bon tu peux cliquer 🎊</h3>
+            <p class="look-up" v-if="data.record.fields && data.record.fields.Statut !== 'Réglé'">👆🏻 😵‍💫 👆🏻</p>
+            <p class="look-up" v-else>👇🏻 🤓 👇🏻</p>
             <el-button @click="sendConfirmationEmail()" :disabled="data.record.fields && data.record.fields.Statut !== 'Réglé'" type="success" plain round icon="el-icon-check">Envoyer e-mail Confirmation d'Inscription</el-button>
          </div>
          <div class="email-button">
-            <p v-if="data.record.fields && !data.record.fields.Facture_acquittee">la facture acquitée n'est pas créée et/ou uploadée sur Airtable 🥺</p>
+            <h3 v-if="data.record.fields && !data.record.fields.Facture_acquittee">❌ La facture acquitée n'est pas créée et/ou uploadée sur Airtable 🥺</h3>
+            <h3 v-else>✅ C'est bon tu peux cliquer 🏆</h3>
+            <p class="look-up" v-if="data.record.fields && !data.record.fields.Facture_acquittee">👆🏻 🤬 👆🏻</p>
+            <p class="look-up" v-else>👇🏻 💗 👇🏻</p>
             <el-button @click="sendPaidInvoiceEmail()" :disabled="data.record.fields && !data.record.fields.Facture_acquittee" type="warning" plain round icon="el-icon-check">Envoyer e-mail Facture Acquitée</el-button>
          </div>
       </el-tab-pane>
@@ -185,7 +195,8 @@ const sendConfirmationEmail = () => {
          if (message == "OK") {
             ElNotification({
                title: 'Email Envoyé 🤘🏻',
-               message: `${data.record.fields['Prénom']}  ${data.record.fields.Nom} à bien reçu la confirmation de son inscription ✔`,
+               message: `${data.record.fields['Prénom']}  ${data.record.fields.Nom} à bien reçu la confirmation de son inscription ✔
+               🥳`,
                duration: 0,
                type: 'success',
             })
@@ -264,6 +275,15 @@ const sendPaidInvoiceEmail = () => {
 }
 .email-button {
    margin: 30px;
+}
+.look-up {
+   font-size: 30px;
+   margin: 0;
+   margin-top: -20px;
+   animation: blinker 1s linear 5;
+}
+@keyframes blinker {  
+  50% { opacity: 0; }
 }
 
 </style>
