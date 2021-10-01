@@ -28,7 +28,7 @@
          </div>
          <div class="email-button">
             <p v-if="data.record.fields && !data.record.fields.Facture_acquittee">la facture acquitée n'est pas créée et/ou uploadée sur Airtable 🥺</p>
-            <el-button @click="sendPaidInvoiceEmail()" :disabled="data.record.fields && !data.record.fields.Facture_acqittee" type="warning" plain round icon="el-icon-check">Envoyer e-mail Facture Acquitée</el-button>
+            <el-button @click="sendPaidInvoiceEmail()" :disabled="data.record.fields && !data.record.fields.Facture_acquittee" type="warning" plain round icon="el-icon-check">Envoyer e-mail Facture Acquitée</el-button>
          </div>
       </el-tab-pane>
    </el-tabs>
