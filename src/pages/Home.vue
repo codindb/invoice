@@ -213,8 +213,8 @@ const sendPaidInvoiceEmail = () => {
     Body : paidInvoiceEmailBody,
     Attachments : [
       {
-         name : data.record.fields['Facture acquitee'][0].filename,
-         path : data.record.fields['Facture acquitee'][0].url
+         name : data.record.fields.Facture_acquittee[0].filename,
+         path : data.record.fields.Facture_acquittee[0].url
       }
    ],
    }).then(
